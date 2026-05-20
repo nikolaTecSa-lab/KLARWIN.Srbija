@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Klarwin® Srbija – Laboratorija · Industrijska Filtracija · Tretman Voda</title>
-  <meta name="description" content="Zvanično tehničko predstavništvo Klarwin® u Srbiji. Laboratorijske usluge, industrijska filtracija i prečišćavanje vode. Kontakt: nikola.dolinski@klarwin.com | +381638452792" />
+  <meta name="description" content="Zvanično tehničko predstavništvo Klarwin® u Srbiji. Laboratorijske usluge, industrijska filtracija i prečišćavanje vode. Kontakt: info@tehnickacistoca.in.rs | +381638452792" />
   <meta name="keywords" content="Klarwin Srbija, laboratorijske usluge Srbija, industrijska filtracija, tretman otpadnih voda, prečišćavanje vode Srbija, analiza vode Beograd, filteri za vodu industrija, laboratorijska oprema Srbija, hemijska analiza vode, tretman vode za industriju" />
   <meta name="author" content="Klarwin Srbija – Nikola Dolinski" />
   <meta name="robots" content="index, follow" />
@@ -26,7 +26,7 @@
     "description": "Zvanično tehničko predstavništvo Klarwin® u Srbiji. Laboratorijske usluge, industrijska filtracija, tretman otpadnih voda.",
     "url": "https://klarwin.rs",
     "telephone": "+381638452792",
-    "email": "nikola.dolinski@klarwin.com",
+    "email": "info@tehnickacistoca.in.rs",
     "address": {
       "@type": "PostalAddress",
       "addressCountry": "RS",
@@ -807,7 +807,7 @@
         <div class="contact-icon">✉️</div>
         <div>
           <h4>Email</h4>
-          <a href="mailto:nikola.dolinski@klarwin.com">nikola.dolinski@klarwin.com</a>
+          <a href="mailto:info@tehnickacistoca.in.rs">info@tehnickacistoca.in.rs</a>
         </div>
       </div>
       <div class="contact-item">
@@ -907,7 +907,7 @@
     <a href="#usluge">Usluge</a>
     <a href="#zasto">O nama</a>
     <a href="#kontakt">Kontakt</a>
-    <a href="mailto:nikola.dolinski@klarwin.com">Email</a>
+    <a href="mailto:info@tehnickacistoca.in.rs">Email</a>
     <a href="tel:+381638452792">Telefon</a>
   </div>
 </footer>
@@ -965,26 +965,32 @@
   }
 
   async function sendRegistration(data) {
-    // Sends visitor data to owner via mailto link as fallback
-    const subject = encodeURIComponent(`Novi posetilac: ${data.name}`);
-    const body = encodeURIComponent(
+    const WEB3FORMS_KEY = 'ZAМЕНИТИ_SA_VASIM_KLJUCEM'; // → web3forms.com → unesite info@tehnickacistoca.in.rs
+
+    const message =
       `Novi posetilac registrovan na klarwin.rs\n\n` +
       `Ime: ${data.name}\n` +
       `Email: ${data.email}\n` +
       `Telefon: ${data.phone || 'nije unet'}\n` +
       `Kompanija: ${data.company || 'nije unesena'}\n` +
       `Grad: ${data.city || 'nije unet'}\n` +
-      `Oblast: ${data.interest}\n` +
-      `Vreme: ${data.timestamp}\n` +
-      `Stranica: ${data.page}`
-    );
+      `Oblast interesovanja: ${data.interest}\n` +
+      `Vreme registracije: ${data.timestamp}\n` +
+      `Stranica: ${data.page}`;
 
-    // Try Formspree first (if configured), fallback is localStorage only
     try {
-      await fetch('https://formspree.io/f/xeoqkqkq', {
+      await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
         headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...data, _subject: `Klarwin.rs – Novi posetilac: ${data.name}` })
+        body: JSON.stringify({
+          access_key: WEB3FORMS_KEY,
+          subject: `Klarwin.rs – Novi posetilac: ${data.name}`,
+          from_name: 'Klarwin.rs Registracija',
+          message: message,
+          email: data.email,
+          name: data.name,
+          replyto: data.email
+        })
       });
     } catch(e) {
       console.log('Registration logged locally.');
@@ -1013,15 +1019,19 @@
       `Kompanija: ${company || 'nije unesena'}\nOblast: ${subject}\n\nPoruka:\n${message}`
     );
 
-    // Try Formspree
-    fetch('https://formspree.io/f/xeoqkqkq', {
+    const WEB3FORMS_KEY = 'ZAМЕНИТИ_SA_VASIM_KLJUCEM'; // → web3forms.com
+
+    // Try Web3Forms
+    fetch('https://api.web3forms.com/submit', {
       method: 'POST',
       headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
       body: JSON.stringify({
+        access_key: WEB3FORMS_KEY,
+        subject: `Klarwin.rs – ${subject} – ${name}`,
+        from_name: 'Klarwin.rs Kontakt Forma',
         name, email, phone, company,
-        subject: subject,
-        message,
-        _subject: `Klarwin.rs – ${subject} – ${name}`
+        message: `Oblast: ${subject}\n\n${message}`,
+        replyto: email
       })
     }).catch(() => {});
 
@@ -1031,7 +1041,7 @@
 
     // Fallback: also open mailto
     setTimeout(() => {
-      window.location.href = `mailto:nikola.dolinski@klarwin.com?subject=${mailSubject}&body=${mailBody}`;
+      window.location.href = `mailto:info@tehnickacistoca.in.rs?subject=${mailSubject}&body=${mailBody}`;
     }, 800);
   }
 
