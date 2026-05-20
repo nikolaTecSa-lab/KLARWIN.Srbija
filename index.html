@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Klarwin® Srbija – Laboratorija · Industrijska Filtracija · Tretman Voda</title>
-  <meta name="description" content="Zvanično tehničko predstavništvo Klarwin® u Srbiji. Laboratorijske usluge, industrijska filtracija i prečišćavanje vode. Kontakt: nikola.dolinski@klarwin.com | +381638452792" />
+  <meta name="description" content="Zvanično tehničko predstavništvo Klarwin® u Srbiji. Laboratorijske usluge, industrijska filtracija i prečišćavanje vode. Kontakt: info@tehnickacistoca.in.rs | +381638452792" />
   <meta name="keywords" content="Klarwin Srbija, laboratorijske usluge Srbija, industrijska filtracija, tretman otpadnih voda, prečišćavanje vode Srbija, analiza vode Beograd, filteri za vodu industrija, laboratorijska oprema Srbija, hemijska analiza vode, tretman vode za industriju" />
   <meta name="author" content="Klarwin Srbija – Nikola Dolinski" />
   <meta name="robots" content="index, follow" />
@@ -26,7 +26,7 @@
     "description": "Zvanično tehničko predstavništvo Klarwin® u Srbiji. Laboratorijske usluge, industrijska filtracija, tretman otpadnih voda.",
     "url": "https://klarwin.rs",
     "telephone": "+381638452792",
-    "email": "nikola.dolinski@klarwin.com",
+    "email": "info@tehnickacistoca.in.rs",
     "address": {
       "@type": "PostalAddress",
       "addressCountry": "RS",
@@ -807,7 +807,7 @@
         <div class="contact-icon">✉️</div>
         <div>
           <h4>Email</h4>
-          <a href="mailto:info@tehnickacistoca.in.rs">info@tehnickacistoca.in.rs</a>
+          <a href="mailto:nikola.dolinski@klarwin.com">nikola.dolinski@klarwin.com</a>
         </div>
       </div>
       <div class="contact-item">
@@ -965,7 +965,8 @@
   }
 
   async function sendRegistration(data) {
-    const WEB3FORMS_KEY = 'fb9b755e-4c61-43f6-af93-294f7c1d9515'; // → web3forms.com → unesite info@tehnickacistoca.in.rs
+    // Web3Forms: idite na web3forms.com → unesite info@tehnickacistoca.in.rs → kopirajte key ovde
+    const WEB3FORMS_KEY = 'ZAМЕНИТИ_SA_VASIM_KLJUCEM';
 
     const message =
       `Novi posetilac registrovan na klarwin.rs\n\n` +
@@ -1019,7 +1020,8 @@
       `Kompanija: ${company || 'nije unesena'}\nOblast: ${subject}\n\nPoruka:\n${message}`
     );
 
-    const WEB3FORMS_KEY = 'fb9b755e-4c61-43f6-af93-294f7c1d9515'; // → web3forms.com
+    // Web3Forms: idite na web3forms.com → unesite nikola.dolinski@klarwin.com → kopirajte key ovde
+    const WEB3FORMS_KEY = 'ZAМЕНITI_SA_DRUGIM_KLJUCEM';
 
     // Try Web3Forms
     fetch('https://api.web3forms.com/submit', {
@@ -1041,7 +1043,7 @@
 
     // Fallback: also open mailto
     setTimeout(() => {
-      window.location.href = `mailto:info@tehnickacistoca.in.rs?subject=${mailSubject}&body=${mailBody}`;
+      window.location.href = `mailto:nikola.dolinski@klarwin.com?subject=${mailSubject}&body=${mailBody}`;
     }, 800);
   }
 
