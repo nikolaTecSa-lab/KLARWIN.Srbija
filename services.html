@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Services – TecSa Pro</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+.services-section { padding: 80px 0; border-bottom: 1px solid var(--border); }
+.services-section:last-of-type { border-bottom: none; }
+.svc-header { margin-bottom: 48px; }
+.svc-header h2 { font-family: var(--font-display); font-size: 38px; font-weight: 800; letter-spacing: -0.03em; margin-bottom: 12px; }
+.svc-header p { color: var(--text-muted); max-width: 560px; font-size: 16px; line-height: 1.7; }
+
+/* Course modules */
+.modules-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 40px; }
+.module-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  transition: border-color var(--transition);
+}
+.module-card:hover { border-color: rgba(0,212,255,0.3); }
+.module-card.test { background: rgba(0,212,255,0.05); border-color: rgba(0,212,255,0.2); }
+.module-num { font-family: var(--font-display); font-size: 11px; font-weight: 700; color: var(--accent); letter-spacing: 0.1em; margin-bottom: 8px; }
+.module-card h4 { font-family: var(--font-display); font-size: 14px; font-weight: 600; margin-bottom: 6px; line-height: 1.3; }
+.module-card p { font-size: 12px; color: var(--text-muted); margin: 0; }
+.module-duration { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; color: var(--text-dim); margin-top: 10px; }
+
+.course-info { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 36px; }
+.info-box { background: var(--bg3); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; }
+.info-box strong { display: block; font-family: var(--font-display); font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 8px; }
+.info-box span { font-family: var(--font-display); font-size: 22px; font-weight: 700; }
+
+/* Consulting / Audit */
+.svc-two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start; }
+.svc-list { display: flex; flex-direction: column; gap: 12px; margin: 24px 0; }
+.svc-list li { display: flex; align-items: start; gap: 12px; font-size: 15px; color: var(--text-muted); }
+.svc-list li::before { content: "→"; color: var(--accent); flex-shrink: 0; }
+
+@media(max-width:900px){ .modules-grid { grid-template-columns: 1fr 1fr; } .svc-two-col { grid-template-columns: 1fr; } .course-info { grid-template-columns: 1fr 1fr; } }
+@media(max-width:600px){ .modules-grid { grid-template-columns: 1fr; } .course-info { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<nav id="navbar">
+  <div class="nav-inner">
+    <a href="index.html" class="logo">TecSa<span>Pro</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="services.html" class="active">Services</a></li>
+      <li><a href="references.html">References</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <a href="register.html" class="btn-nav">Enroll Now</a>
+    <button class="burger" onclick="toggleMenu()">&#9776;</button>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="index.html">Home</a><a href="about.html">About</a><a href="services.html">Services</a><a href="references.html">References</a><a href="contact.html">Contact</a>
+    <a href="register.html" class="btn-nav">Enroll Now</a>
+  </div>
+</nav>
+
+<section class="page-hero">
+  <div class="container">
+    <div class="section-label">Services</div>
+    <h1>What we <em>offer</em></h1>
+    <p>Training, consulting, and cleanliness audits – tailored for industrial and manufacturing professionals.</p>
+  </div>
+</section>
+
+<!-- ONLINE TRAINING -->
+<section class="services-section" id="course">
+  <div class="container">
+    <div class="svc-header">
+      <div class="section-label">02 · Online Training</div>
+      <h2>Technical Cleanliness <em>Certification Course</em></h2>
+      <p>An 8-hour online professional training course divided into 16 modules – structured to be completed during working hours in 30-minute sessions. English language.</p>
+    </div>
+
+    <div class="course-info">
+      <div class="info-box"><strong>Duration</strong><span>8 hours</span></div>
+      <div class="info-box"><strong>Format</strong><span>16 modules</span></div>
+      <div class="info-box"><strong>Language</strong><span>English</span></div>
+    </div>
+
+    <div class="modules-grid">
+      <div class="module-card">
+        <div class="module-num">MODULE 01</div>
+        <h4>Introduction to Technical Cleanliness</h4>
+        <p>Definition, history, and importance in modern manufacturing</p>
+        <div class="module-duration">⏱ 30 min</div>
+      </div>
+      <div class="module-card">
+        <div class="module-num">MODULE 02</div>
+        <h4>Standards Overview</h4>
+        <p>VDA 19, ISO 16232, ISO 4405, ISO 14644 – scope and application</p>
+        <div class="module-duration">⏱ 30 min</div>
+      </div>
+      <div class="module-card">
+        <div class="module-num">MODULE 03</div>
+        <h4>Particle Types & Classification</h4>
+        <p>Metallic, non-metallic, fibrous – sources and risks</p>
+        <div class="module-duration">⏱ 30 min</div>
+      </div>
+      <div class="module-card">
+        <div class="module-num">MODULE 04</div>
+        <h4>Cleanliness Requirements</h4>
+        <p>How cleanliness codes are defined in specifications and contracts</p>
+        <div class="module-duration">⏱ 30 min</div>
+      </div>
+      <div class="module-card">
+        <div class="module-num">MODULE 05</div>
+        <h4>Sampling Methods</h4>
+        <p>Extraction, rinsing, pressure flush – when and how to use each</p>
+        <div class="module-duration">⏱ 30 min</div>
+      </div>
+      <div class="module-card">
+        <div class="module-num">MODULE 06</div>
+        <h4>Laboratory Analysis</h4>
+        <p>Gravimetric and particle count methods; membrane filter analysis</p>
+        <div class="module-duration">⏱ 30 min</div>
+      </div>
+      <div class="module-card">
+        <div class="module-num">MODULE 07</div>
+        <h4>Cleanliness Testing Equipment</h4>
+        <p>Cleanliness cabinets, microscopes, particle counters – setup and use</p>
+        <div class="module-duration">⏱ 30 min</div>
+      </div>
+      <div class="module-card">
+        <div class="module-num">MODULE 08</div>
+        <h4>HEPA Filtration</h4>
+        <p>Principles, classification, selection, and maintenance</p>
+        <div class="module-duration">⏱ 30 min</div>
+      </div>
+      <div class="module-card">
+        <div class="module-num">MODULE 09</div>
+        <h4>Industrial Washing Systems</h4>
+        <p>Aqueous and solvent-based cleaning; machine selection criteria</p>
+        <div class="module-duration">⏱ 30 min</div>
+      </div>
+      <div class="module-card">
+        <div class="module-num">MODULE 10</div>
+        <h4>Cleanroom Environments</h4>
+        <p>ISO 14644 classification, design principles, airflow and pressure</p>
+        <div class="module-duration">⏱ 30 min</div>
+      </div>
+      <div class="module-card">
+        <div class="module-num">MODULE 11</div>
+        <h4>Process Cleanliness Control</h4>
+        <p>In-process monitoring, contamination sources, prevention strategies</p>
+        <div class="module-duration">⏱ 30 min</div>
+      </div>
+      <div class="module-card">
+        <div class="module-num">MODULE 12</div>
+        <h4>Packaging & Storage</h4>
+        <p>Protecting cleanliness after testing through packaging and logistics</p>
+        <div class="module-duration">⏱ 30 min</div>
+      </div>
+      <div class="module-card">
+        <div class="module-num">MODULE 13</div>
+        <h4>Documentation & Reporting</h4>
+        <p>Cleanliness reports, test protocols, and customer documentation</p>
+        <div class="module-duration">⏱ 30 min</div>
+      </div>
+      <div class="module-card">
+        <div class="module-num">MODULE 14</div>
+        <h4>Supplier Cleanliness Requirements</h4>
+        <p>Managing cleanliness across the supply chain; auditing suppliers</p>
+        <div class="module-duration">⏱ 30 min</div>
+      </div>
+      <div class="module-card">
+        <div class="module-num">MODULE 15</div>
+        <h4>Case Studies & Common Failures</h4>
+        <p>Real-world examples from automotive and industrial applications</p>
+        <div class="module-duration">⏱ 30 min</div>
+      </div>
+      <div class="module-card test">
+        <div class="module-num">MODULE 16</div>
+        <h4>Final Assessment</h4>
+        <p>Multiple-choice test covering all modules. Pass to receive certificate.</p>
+        <div class="module-duration">⏱ 30 min</div>
+      </div>
+    </div>
+
+    <a href="register.html" class="btn-primary">Enroll Your Team</a>
+  </div>
+</section>
+
+<!-- CONSULTING -->
+<section class="services-section" id="consulting">
+  <div class="container">
+    <div class="svc-two-col">
+      <div>
+        <div class="section-label">01 · Consulting</div>
+        <h2 style="font-family:var(--font-display);font-size:36px;font-weight:800;letter-spacing:-0.03em;margin-bottom:16px;">Technical Cleanliness <em>Consulting</em></h2>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:8px;">We help manufacturing companies and laboratories define, implement, and maintain technical cleanliness requirements in line with current international standards.</p>
+        <ul class="svc-list">
+          <li>Cleanliness requirements definition and specification writing</li>
+          <li>Laboratory setup and equipment selection</li>
+          <li>Process analysis and contamination source identification</li>
+          <li>Training and onboarding of quality personnel</li>
+          <li>Supplier evaluation and cleanliness target setting</li>
+        </ul>
+        <a href="contact.html" class="btn-primary">Get in touch</a>
+      </div>
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:36px;">
+        <h4 style="font-family:var(--font-display);margin-bottom:16px;">Who benefits</h4>
+        <p style="color:var(--text-muted);font-size:14px;margin-bottom:20px;">Consulting is ideal for companies that are:</p>
+        <ul class="svc-list">
+          <li>Setting up a new cleanliness lab</li>
+          <li>Facing customer audits or PPAP requirements</li>
+          <li>Receiving cleanliness rejections from customers</li>
+          <li>Expanding into automotive or aerospace supply chains</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AUDIT -->
+<section class="services-section" id="audit">
+  <div class="container">
+    <div class="svc-two-col">
+      <div>
+        <div class="section-label">03 · Audit</div>
+        <h2 style="font-family:var(--font-display);font-size:36px;font-weight:800;letter-spacing:-0.03em;margin-bottom:16px;">Cleanliness <em>Audit</em></h2>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:8px;">A systematic review of your production environment, processes, and documentation against VDA 19, ISO 16232, and ISO 14644 requirements.</p>
+        <ul class="svc-list">
+          <li>On-site or remote (hybrid) audit execution</li>
+          <li>Gap analysis against applicable standards</li>
+          <li>Written audit report with findings and recommendations</li>
+          <li>Follow-up support for corrective actions</li>
+        </ul>
+        <a href="contact.html" class="btn-primary">Request an audit</a>
+      </div>
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:36px;">
+        <h4 style="font-family:var(--font-display);margin-bottom:16px;">Audit scope options</h4>
+        <ul class="svc-list">
+          <li>Full production line cleanliness audit</li>
+          <li>Laboratory methodology review</li>
+          <li>Supplier second-party audit</li>
+          <li>Pre-customer audit assessment</li>
+          <li>Cleanroom qualification review (ISO 14644)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand"><div class="logo">TecSa<span>Pro</span></div><p>Technical cleanliness training and consulting.</p></div>
+      <div class="footer-links"><strong>Navigation</strong><a href="index.html">Home</a><a href="about.html">About</a><a href="services.html">Services</a><a href="references.html">References</a><a href="contact.html">Contact</a></div>
+      <div class="footer-links"><strong>Services</strong><a href="#consulting">Consulting</a><a href="#course">Online Training</a><a href="#audit">Audit</a></div>
+      <div class="footer-contact"><strong>Contact</strong><p>technicalcleanliness.online</p><p>[EMAIL PLACEHOLDER]</p><p>Obrenovac, Serbia</p></div>
+    </div>
+    <div class="footer-bottom"><span>© 2026 TecSa Pro. All rights reserved.</span><span>ISO 16232 · VDA 19 · ISO 14644</span></div>
+  </div>
+</footer>
+<script src="main.js"></script>
+</body>
+</html>

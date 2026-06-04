@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact – TecSa Pro</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+.contact-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: 80px; padding: 80px 0; }
+.contact-info h2 { font-family: var(--font-display); font-size: 32px; font-weight: 800; letter-spacing: -0.03em; margin-bottom: 16px; }
+.contact-info p { color: var(--text-muted); line-height: 1.8; margin-bottom: 36px; }
+.contact-item { display: flex; gap: 16px; align-items: flex-start; margin-bottom: 24px; }
+.contact-icon { width: 40px; height: 40px; background: var(--bg3); border: 1px solid var(--border); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+.contact-item strong { display: block; font-size: 13px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-dim); margin-bottom: 4px; }
+.contact-item span { color: var(--text-muted); font-size: 15px; }
+.success-msg { display: none; background: rgba(0,212,255,0.1); border: 1px solid rgba(0,212,255,0.3); border-radius: var(--radius); padding: 20px; color: var(--accent); font-weight: 500; margin-top: 16px; }
+@media(max-width:900px){ .contact-grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<nav id="navbar">
+  <div class="nav-inner">
+    <a href="index.html" class="logo">TecSa<span>Pro</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="services.html">Services</a></li>
+      <li><a href="references.html">References</a></li>
+      <li><a href="contact.html" class="active">Contact</a></li>
+    </ul>
+    <a href="register.html" class="btn-nav">Enroll Now</a>
+    <button class="burger" onclick="toggleMenu()">&#9776;</button>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="index.html">Home</a><a href="about.html">About</a><a href="services.html">Services</a><a href="references.html">References</a><a href="contact.html">Contact</a>
+    <a href="register.html" class="btn-nav">Enroll Now</a>
+  </div>
+</nav>
+
+<section class="page-hero">
+  <div class="container">
+    <div class="section-label">Contact</div>
+    <h1>Get in <em>touch</em></h1>
+    <p>Questions about our services, custom training programs, or audits? We'll get back to you within 24 hours.</p>
+  </div>
+</section>
+
+<section class="container">
+  <div class="contact-grid">
+    <div class="contact-info">
+      <h2>We're ready to help</h2>
+      <p>Whether you're looking for consulting, an on-site audit, or want to discuss a custom team training program – reach out and we'll find the right solution.</p>
+
+      <div class="contact-item">
+        <div class="contact-icon">📧</div>
+        <div><strong>Email</strong><span>[EMAIL PLACEHOLDER]</span></div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">📞</div>
+        <div><strong>Phone / WhatsApp</strong><span>[PHONE PLACEHOLDER]</span></div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">📍</div>
+        <div><strong>Location</strong><span>Obrenovac, Serbia</span></div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">⏱</div>
+        <div><strong>Response time</strong><span>Within 24 business hours</span></div>
+      </div>
+    </div>
+
+    <div class="form-wrap">
+      <h3 style="font-family:var(--font-display);font-size:22px;font-weight:700;margin-bottom:24px;">Send a message</h3>
+      <div class="form-row">
+        <div class="form-group"><label>First Name *</label><input type="text" id="cf-fname" placeholder="John"></div>
+        <div class="form-group"><label>Last Name *</label><input type="text" id="cf-lname" placeholder="Smith"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Email *</label><input type="email" id="cf-email" placeholder="john@company.com"></div>
+        <div class="form-group"><label>Company *</label><input type="text" id="cf-company" placeholder="Company Ltd."></div>
+      </div>
+      <div class="form-group">
+        <label>Subject</label>
+        <select id="cf-subject">
+          <option value="">Select a topic...</option>
+          <option>Technical Cleanliness Consulting</option>
+          <option>Cleanliness Audit</option>
+          <option>Online Training – Team Enrollment</option>
+          <option>Custom Training Program</option>
+          <option>General Inquiry</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Message *</label><textarea id="cf-message" placeholder="Describe your needs or questions..."></textarea></div>
+      <button class="btn-primary" onclick="submitContact()">Send Message</button>
+      <div class="success-msg" id="contact-success">✓ Thank you! We'll be in touch within 24 hours.</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand"><div class="logo">TecSa<span>Pro</span></div><p>Technical cleanliness training and consulting.</p></div>
+      <div class="footer-links"><strong>Navigation</strong><a href="index.html">Home</a><a href="about.html">About</a><a href="services.html">Services</a><a href="references.html">References</a><a href="contact.html">Contact</a></div>
+      <div class="footer-links"><strong>Services</strong><a href="services.html#consulting">Consulting</a><a href="services.html#course">Online Training</a><a href="services.html#audit">Audit</a></div>
+      <div class="footer-contact"><strong>Contact</strong><p>technicalcleanliness.online</p><p>[EMAIL PLACEHOLDER]</p><p>Obrenovac, Serbia</p></div>
+    </div>
+    <div class="footer-bottom"><span>© 2026 TecSa Pro. All rights reserved.</span><span>ISO 16232 · VDA 19 · ISO 14644</span></div>
+  </div>
+</footer>
+<script src="main.js"></script>
+<script>
+function submitContact() {
+  const fields = ['cf-fname','cf-lname','cf-email','cf-company','cf-message'];
+  for (let f of fields) { if (!document.getElementById(f).value.trim()) { alert('Please fill in all required fields.'); return; } }
+  document.getElementById('contact-success').style.display = 'block';
+  document.querySelector('.form-wrap button').disabled = true;
+}
+</script>
+</body>
+</html>

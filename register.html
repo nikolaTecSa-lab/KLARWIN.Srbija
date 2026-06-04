@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Enroll – TecSa Pro</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<!-- QR Code library -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+.enroll-layout { display: grid; grid-template-columns: 1.4fr 1fr; gap: 48px; padding: 60px 0 80px; align-items: start; }
+.steps { display: flex; gap: 12px; margin-bottom: 36px; }
+.step { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--text-dim); }
+.step.active { color: var(--accent); }
+.step-num { width: 24px; height: 24px; border-radius: 50%; border: 1px solid currentColor; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; flex-shrink: 0; }
+.step-arrow { color: var(--text-dim); font-size: 12px; }
+
+.participant-row { display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 12px; align-items: end; margin-bottom: 12px; background: var(--bg3); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; }
+.participant-row .form-group { margin-bottom: 0; }
+.remove-btn { background: none; border: 1px solid var(--border); color: var(--text-dim); border-radius: 6px; padding: 10px 12px; cursor: pointer; font-size: 16px; transition: all var(--transition); }
+.remove-btn:hover { border-color: #ff4444; color: #ff4444; }
+.add-participant { background: none; border: 1px dashed var(--border); color: var(--text-muted); border-radius: var(--radius); padding: 14px; width: 100%; cursor: pointer; font-family: var(--font-body); font-size: 14px; transition: all var(--transition); margin-top: 8px; }
+.add-participant:hover { border-color: var(--accent); color: var(--accent); }
+
+/* Pricing sidebar */
+.price-sidebar { position: sticky; top: 90px; background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 32px; }
+.price-sidebar h3 { font-family: var(--font-display); font-size: 18px; font-weight: 700; margin-bottom: 24px; }
+.price-breakdown { display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; }
+.price-line { display: flex; justify-content: space-between; font-size: 14px; color: var(--text-muted); }
+.price-line.total { font-family: var(--font-display); font-size: 22px; font-weight: 800; color: var(--white); border-top: 1px solid var(--border); padding-top: 16px; margin-top: 8px; }
+.price-line .label { color: var(--text-muted); }
+.price-line .amount { color: var(--white); font-weight: 600; }
+.discount-badge { background: rgba(0,212,255,0.1); border: 1px solid rgba(0,212,255,0.2); color: var(--accent); font-size: 12px; padding: 4px 12px; border-radius: 100px; }
+
+/* Payment info */
+.payment-info { background: var(--bg3); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; margin-top: 20px; }
+.payment-info h4 { font-family: var(--font-display); font-size: 14px; margin-bottom: 12px; }
+.payment-field { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 8px; }
+.payment-field .key { color: var(--text-dim); }
+.payment-field .val { color: var(--text); font-weight: 500; word-break: break-all; text-align: right; max-width: 60%; }
+.ref-code { font-family: monospace; color: var(--accent); font-size: 14px; background: var(--bg); padding: 4px 8px; border-radius: 4px; }
+
+/* QR */
+#qr-container { display: flex; justify-content: center; margin: 20px 0 16px; }
+#qr-container canvas, #qr-container img { border-radius: 8px; background: #fff; padding: 8px; }
+
+/* Confirmation */
+.confirm-screen { display: none; background: var(--bg2); border: 1px solid rgba(0,212,255,0.2); border-radius: var(--radius-lg); padding: 40px; text-align: center; }
+.confirm-screen.show { display: block; }
+.confirm-icon { font-size: 48px; margin-bottom: 16px; }
+.confirm-screen h2 { font-family: var(--font-display); font-size: 28px; font-weight: 800; margin-bottom: 12px; }
+.confirm-screen p { color: var(--text-muted); margin-bottom: 24px; }
+.invoice-btn { display: inline-block; background: var(--accent); color: #000; font-family: var(--font-display); font-weight: 700; padding: 14px 28px; border-radius: var(--radius); cursor: pointer; border: none; font-size: 14px; margin: 8px; }
+.invoice-btn:hover { background: #fff; }
+.invoice-btn.secondary { background: var(--bg3); color: var(--text); border: 1px solid var(--border); }
+.invoice-btn.secondary:hover { border-color: var(--accent); color: var(--accent); }
+
+@media(max-width:900px){ .enroll-layout { grid-template-columns: 1fr; } .price-sidebar { position: static; } .participant-row { grid-template-columns: 1fr 1fr; } }
+@media(max-width:600px){ .participant-row { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<nav id="navbar">
+  <div class="nav-inner">
+    <a href="index.html" class="logo">TecSa<span>Pro</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="services.html">Services</a></li>
+      <li><a href="references.html">References</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <a href="register.html" class="btn-nav">Enroll Now</a>
+    <button class="burger" onclick="toggleMenu()">&#9776;</button>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="index.html">Home</a><a href="about.html">About</a><a href="services.html">Services</a><a href="references.html">References</a><a href="contact.html">Contact</a>
+  </div>
+</nav>
+
+<section class="page-hero">
+  <div class="container">
+    <div class="section-label">Enrollment</div>
+    <h1>Enroll your <em>team</em></h1>
+    <p>Fill in company and participant details. You'll receive payment instructions and an invoice immediately after submission.</p>
+  </div>
+</section>
+
+<section class="container">
+  <div class="enroll-layout">
+
+    <!-- LEFT: FORM -->
+    <div>
+      <div class="steps">
+        <div class="step active" id="step1-indicator"><div class="step-num">1</div> Company Details</div>
+        <div class="step-arrow">→</div>
+        <div class="step" id="step2-indicator"><div class="step-num">2</div> Participants</div>
+        <div class="step-arrow">→</div>
+        <div class="step" id="step3-indicator"><div class="step-num">3</div> Confirmation</div>
+      </div>
+
+      <!-- STEP 1: Company -->
+      <div id="step1">
+        <h3 style="font-family:var(--font-display);font-size:20px;font-weight:700;margin-bottom:24px;">Company Information</h3>
+        <div class="form-row">
+          <div class="form-group"><label>Company Name *</label><input type="text" id="co-name" placeholder="Acme Manufacturing GmbH" oninput="updatePreview()"></div>
+          <div class="form-group"><label>VAT / Tax Number</label><input type="text" id="co-vat" placeholder="DE123456789" oninput="updatePreview()"></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Country *</label><input type="text" id="co-country" placeholder="Germany" oninput="updatePreview()"></div>
+          <div class="form-group"><label>City *</label><input type="text" id="co-city" placeholder="Berlin" oninput="updatePreview()"></div>
+        </div>
+        <div class="form-group"><label>Address *</label><input type="text" id="co-address" placeholder="Industriestrasse 42" oninput="updatePreview()"></div>
+        <div class="form-row">
+          <div class="form-group"><label>Contact Person *</label><input type="text" id="co-contact" placeholder="Max Müller" oninput="updatePreview()"></div>
+          <div class="form-group"><label>Contact Email *</label><input type="email" id="co-email" placeholder="max@acme.com" oninput="updatePreview()"></div>
+        </div>
+        <div class="form-group">
+          <label>Additional Notes</label>
+          <textarea id="co-notes" placeholder="Any specific requirements or questions..."></textarea>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:24px;">
+          <input type="checkbox" id="terms" style="width:16px;height:16px;accent-color:var(--accent);">
+          <label for="terms" style="font-size:14px;color:var(--text-muted);cursor:pointer;">I accept the <a href="#" style="color:var(--accent);">terms and conditions</a> and confirm this is a B2B enrollment.</label>
+        </div>
+        <button class="btn-primary" onclick="goToStep2()">Continue to Participants →</button>
+      </div>
+
+      <!-- STEP 2: Participants -->
+      <div id="step2" style="display:none;">
+        <h3 style="font-family:var(--font-display);font-size:20px;font-weight:700;margin-bottom:8px;">Participant Details</h3>
+        <p style="color:var(--text-muted);font-size:14px;margin-bottom:24px;">Add each person who will attend the course. Each receives their own login and certificate.</p>
+        <div id="participants-list"></div>
+        <button class="add-participant" onclick="addParticipant()">+ Add another participant</button>
+        <div style="margin-top:32px;display:flex;gap:12px;">
+          <button class="btn-ghost" onclick="goToStep1()">← Back</button>
+          <button class="btn-primary" onclick="goToStep3()">Submit Enrollment →</button>
+        </div>
+      </div>
+
+      <!-- STEP 3: Confirmation -->
+      <div id="step3" style="display:none;">
+        <div class="confirm-screen show">
+          <div class="confirm-icon">✅</div>
+          <h2>Enrollment Submitted!</h2>
+          <p>Thank you, <strong id="conf-name"></strong>. Your enrollment for <strong id="conf-company"></strong> has been received.</p>
+          <p style="color:var(--text-dim);font-size:14px;">Your unique payment reference: <span class="ref-code" id="conf-ref"></span></p>
+          <p style="color:var(--text-muted);font-size:14px;margin-top:8px;">Please use this reference as the payment description when transferring. Once payment is confirmed, course access and invoice will be sent to <strong id="conf-email"></strong>.</p>
+          <div style="margin-top:24px;">
+            <button class="invoice-btn" onclick="downloadInvoice()">⬇ Download Invoice (PDF)</button>
+            <button class="invoice-btn secondary" onclick="window.print()">🖨 Print</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: PRICE SIDEBAR -->
+    <div class="price-sidebar">
+      <h3>Order Summary</h3>
+      <div class="price-breakdown" id="price-breakdown">
+        <div class="price-line"><span class="label">Participants</span><span class="amount" id="sb-count">0</span></div>
+        <div class="price-line"><span class="label">Price per person</span><span class="amount" id="sb-ppp">€450</span></div>
+        <div class="price-line" id="sb-discount-row" style="display:none;"><span class="label">Group discount</span><span class="discount-badge" id="sb-discount-badge">-</span></div>
+        <div class="price-line" id="sb-free-row" style="display:none;"><span class="label">Free seat</span><span class="discount-badge">1 × FREE</span></div>
+        <div class="price-line total"><span class="label">Total</span><span class="amount" id="sb-total">€0</span></div>
+      </div>
+
+      <div class="payment-info" id="payment-info-block">
+        <h4>Bank Transfer Details</h4>
+        <div class="payment-field"><span class="key">Beneficiary</span><span class="val">TecSa Pro [COMPANY PLACEHOLDER]</span></div>
+        <div class="payment-field"><span class="key">IBAN</span><span class="val">[ACCOUNT NUMBER PLACEHOLDER]</span></div>
+        <div class="payment-field"><span class="key">Bank</span><span class="val">[BANK NAME PLACEHOLDER]</span></div>
+        <div class="payment-field"><span class="key">Amount</span><span class="val" id="pi-amount">–</span></div>
+        <div class="payment-field"><span class="key">Reference</span><span class="val ref-code" id="pi-ref">–</span></div>
+        <div class="payment-field"><span class="key">Purpose</span><span class="val" id="pi-purpose">Training enrollment – TecSa Pro</span></div>
+        <div id="qr-container"></div>
+        <p style="font-size:11px;color:var(--text-dim);text-align:center;">Scan QR code to copy payment details</p>
+      </div>
+
+      <div style="margin-top:20px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius);padding:16px;">
+        <p style="font-size:12px;color:var(--text-dim);line-height:1.7;">After payment confirmation, each participant receives individual course access. Certificate issued automatically after passing the final test.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HIDDEN INVOICE TEMPLATE -->
+<div id="invoice-template" style="display:none;">
+  <div id="invoice-content" style="font-family:'DM Sans',sans-serif;max-width:700px;margin:0 auto;padding:40px;background:#fff;color:#1a1a2e;">
+    <div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:40px;border-bottom:2px solid #00a8cc;padding-bottom:24px;">
+      <div>
+        <div style="font-family:'Syne',sans-serif;font-size:26px;font-weight:800;color:#1a1a2e;">TecSa<span style="color:#00a8cc;">Pro</span></div>
+        <div style="font-size:12px;color:#888;margin-top:4px;">Technical Cleanliness Training &amp; Consulting</div>
+        <div style="font-size:12px;color:#888;">Obrenovac, Serbia</div>
+        <div style="font-size:12px;color:#888;">[EMAIL PLACEHOLDER]</div>
+        <div style="font-size:12px;color:#888;">PIB: [PIB PLACEHOLDER]</div>
+      </div>
+      <div style="text-align:right;">
+        <div style="font-size:22px;font-weight:800;color:#1a1a2e;">INVOICE</div>
+        <div style="font-size:14px;color:#888;margin-top:4px;">No. <span id="inv-num" style="color:#1a1a2e;font-weight:600;"></span></div>
+        <div style="font-size:13px;color:#888;">Date: <span id="inv-date"></span></div>
+        <div style="font-size:13px;color:#888;">Due: <span id="inv-due"></span></div>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-bottom:40px;">
+      <div>
+        <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.1em;color:#888;margin-bottom:8px;">Bill To</div>
+        <div style="font-weight:600;" id="inv-coname"></div>
+        <div style="font-size:14px;color:#555;" id="inv-coaddress"></div>
+        <div style="font-size:14px;color:#555;" id="inv-cocity"></div>
+        <div style="font-size:14px;color:#555;" id="inv-covat"></div>
+      </div>
+      <div>
+        <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.1em;color:#888;margin-bottom:8px;">Payment Reference</div>
+        <div style="font-weight:600;color:#00a8cc;font-size:16px;" id="inv-ref"></div>
+        <div style="font-size:12px;color:#888;margin-top:4px;">Use as payment description</div>
+      </div>
+    </div>
+    <table style="width:100%;border-collapse:collapse;margin-bottom:32px;">
+      <thead>
+        <tr style="background:#f5f5f5;font-size:12px;text-transform:uppercase;letter-spacing:0.08em;">
+          <th style="padding:12px;text-align:left;color:#888;">Description</th>
+          <th style="padding:12px;text-align:center;color:#888;">Qty</th>
+          <th style="padding:12px;text-align:right;color:#888;">Unit Price</th>
+          <th style="padding:12px;text-align:right;color:#888;">Amount</th>
+        </tr>
+      </thead>
+      <tbody id="inv-items"></tbody>
+      <tfoot>
+        <tr>
+          <td colspan="3" style="padding:16px 12px;text-align:right;font-weight:700;font-size:16px;">Total</td>
+          <td style="padding:16px 12px;text-align:right;font-weight:800;font-size:20px;color:#00a8cc;" id="inv-total"></td>
+        </tr>
+      </tfoot>
+    </table>
+    <div style="background:#f9f9f9;border-radius:8px;padding:20px;margin-bottom:24px;">
+      <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#888;margin-bottom:12px;">Bank Transfer Details</div>
+      <div style="font-size:14px;color:#555;line-height:2;">
+        <strong>Beneficiary:</strong> TecSa Pro [COMPANY PLACEHOLDER]<br>
+        <strong>IBAN:</strong> [ACCOUNT NUMBER PLACEHOLDER]<br>
+        <strong>Bank:</strong> [BANK NAME PLACEHOLDER]<br>
+        <strong>Reference:</strong> <span style="color:#00a8cc;font-weight:700;" id="inv-ref2"></span>
+      </div>
+    </div>
+    <div id="inv-participants-section" style="margin-bottom:24px;">
+      <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#888;margin-bottom:12px;">Enrolled Participants</div>
+      <table style="width:100%;border-collapse:collapse;font-size:13px;">
+        <thead><tr style="background:#f5f5f5;"><th style="padding:8px 12px;text-align:left;color:#888;">#</th><th style="padding:8px 12px;text-align:left;color:#888;">Name</th><th style="padding:8px 12px;text-align:left;color:#888;">Email</th><th style="padding:8px 12px;text-align:left;color:#888;">Role</th></tr></thead>
+        <tbody id="inv-participants"></tbody>
+      </table>
+    </div>
+    <div style="border-top:1px solid #eee;padding-top:20px;font-size:12px;color:#aaa;text-align:center;">
+      TecSa Pro · technicalcleanliness.online · Obrenovac, Serbia<br>
+      Technical Cleanliness Training &amp; Consulting · ISO 16232 · VDA 19 · ISO 14644
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand"><div class="logo">TecSa<span>Pro</span></div><p>Technical cleanliness training and consulting.</p></div>
+      <div class="footer-links"><strong>Navigation</strong><a href="index.html">Home</a><a href="about.html">About</a><a href="services.html">Services</a><a href="references.html">References</a><a href="contact.html">Contact</a></div>
+      <div class="footer-links"><strong>Services</strong><a href="services.html#consulting">Consulting</a><a href="services.html#course">Online Training</a><a href="services.html#audit">Audit</a></div>
+      <div class="footer-contact"><strong>Contact</strong><p>technicalcleanliness.online</p><p>[EMAIL PLACEHOLDER]</p><p>Obrenovac, Serbia</p></div>
+    </div>
+    <div class="footer-bottom"><span>© 2026 TecSa Pro. All rights reserved.</span><span>ISO 16232 · VDA 19 · ISO 14644</span></div>
+  </div>
+</footer>
+
+<script src="main.js"></script>
+<script>
+// ===== STATE =====
+let participants = [];
+let enrollmentData = {};
+let currentRef = '';
+
+// ===== PRICING =====
+function calcPrice(n) {
+  if (n <= 0) return { total: 0, ppp: 450, discount: null, freeCount: 0, billableCount: 0 };
+  let ppp = 450, discount = null, freeCount = 0, billableCount = n;
+  if (n >= 5) { freeCount = Math.floor(n / 5); billableCount = n - freeCount; discount = 'Group 5+'; ppp = 380; }
+  else if (n === 4) { ppp = 380; discount = '€380/person'; }
+  else if (n === 3) { ppp = 400; discount = '€400/person'; }
+  else if (n === 2) { ppp = 420; discount = '€420/person'; }
+  return { total: billableCount * ppp, ppp, discount, freeCount, billableCount };
+}
+
+function updatePriceSidebar() {
+  const n = participants.length;
+  const p = calcPrice(n);
+  document.getElementById('sb-count').textContent = n;
+  document.getElementById('sb-ppp').textContent = '€' + p.ppp;
+  document.getElementById('sb-total').textContent = '€' + p.total.toLocaleString();
+  document.getElementById('pi-amount').textContent = p.total > 0 ? '€' + p.total.toLocaleString() : '–';
+
+  const discRow = document.getElementById('sb-discount-row');
+  const freeRow = document.getElementById('sb-free-row');
+  if (p.discount && n >= 2) { discRow.style.display = 'flex'; document.getElementById('sb-discount-badge').textContent = p.discount; } else discRow.style.display = 'none';
+  if (p.freeCount > 0) { freeRow.style.display = 'flex'; } else freeRow.style.display = 'none';
+
+  updateQR();
+}
+
+function updateQR() {
+  const ref = currentRef || 'TECSA-XXXX';
+  const amount = calcPrice(participants.length).total;
+  const qrData = `BankTransfer\nBeneficiary: TecSa Pro\nIBAN: [ACCOUNT_PLACEHOLDER]\nAmount: EUR ${amount}\nReference: ${ref}\nPurpose: Technical Cleanliness Training`;
+  const container = document.getElementById('qr-container');
+  container.innerHTML = '';
+  if (amount > 0) {
+    new QRCode(container, { text: qrData, width: 140, height: 140, colorDark: '#000000', colorLight: '#ffffff' });
+  }
+}
+
+function generateRef() {
+  const d = new Date();
+  const pad = n => String(n).padStart(2, '0');
+  return `TCSP-${d.getFullYear()}${pad(d.getMonth()+1)}${pad(d.getDate())}-${Math.floor(1000+Math.random()*9000)}`;
+}
+
+// ===== STEP 1 =====
+function goToStep2() {
+  const required = ['co-name','co-country','co-city','co-address','co-contact','co-email'];
+  for (let id of required) {
+    if (!document.getElementById(id).value.trim()) { alert('Please fill in all required company fields.'); return; }
+  }
+  if (!document.getElementById('terms').checked) { alert('Please accept the terms and conditions.'); return; }
+  document.getElementById('step1').style.display = 'none';
+  document.getElementById('step2').style.display = 'block';
+  document.getElementById('step1-indicator').classList.remove('active');
+  document.getElementById('step2-indicator').classList.add('active');
+  if (participants.length === 0) addParticipant();
+}
+
+function goToStep1() {
+  document.getElementById('step2').style.display = 'none';
+  document.getElementById('step1').style.display = 'block';
+  document.getElementById('step2-indicator').classList.remove('active');
+  document.getElementById('step1-indicator').classList.add('active');
+}
+
+// ===== STEP 2: PARTICIPANTS =====
+function addParticipant() {
+  const id = Date.now();
+  participants.push({ id, fname: '', lname: '', email: '', role: '' });
+  renderParticipants();
+  updatePriceSidebar();
+}
+
+function removeParticipant(id) {
+  if (participants.length <= 1) { alert('At least one participant is required.'); return; }
+  participants = participants.filter(p => p.id !== id);
+  renderParticipants();
+  updatePriceSidebar();
+}
+
+function renderParticipants() {
+  const list = document.getElementById('participants-list');
+  list.innerHTML = participants.map((p, i) => `
+    <div class="participant-row" id="pr-${p.id}">
+      <div class="form-group">
+        <label>First Name *</label>
+        <input type="text" value="${p.fname}" placeholder="Anna" oninput="updateParticipant(${p.id},'fname',this.value)">
+      </div>
+      <div class="form-group">
+        <label>Last Name *</label>
+        <input type="text" value="${p.lname}" placeholder="Smith" oninput="updateParticipant(${p.id},'lname',this.value)">
+      </div>
+      <div class="form-group">
+        <label>Work Email *</label>
+        <input type="email" value="${p.email}" placeholder="anna@company.com" oninput="updateParticipant(${p.id},'email',this.value)">
+      </div>
+      <button class="remove-btn" onclick="removeParticipant(${p.id})" title="Remove">✕</button>
+    </div>
+  `).join('');
+}
+
+function updateParticipant(id, field, value) {
+  const p = participants.find(x => x.id === id);
+  if (p) p[field] = value;
+}
+
+function goToStep3() {
+  for (let p of participants) {
+    if (!p.fname.trim() || !p.lname.trim() || !p.email.trim()) { alert('Please fill in all participant details (name and email).'); return; }
+  }
+  currentRef = generateRef();
+  document.getElementById('pi-ref').textContent = currentRef;
+  document.getElementById('conf-ref').textContent = currentRef;
+  document.getElementById('conf-name').textContent = document.getElementById('co-contact').value;
+  document.getElementById('conf-company').textContent = document.getElementById('co-name').value;
+  document.getElementById('conf-email').textContent = document.getElementById('co-email').value;
+
+  document.getElementById('step2').style.display = 'none';
+  document.getElementById('step3').style.display = 'block';
+  document.getElementById('step2-indicator').classList.remove('active');
+  document.getElementById('step3-indicator').classList.add('active');
+  updateQR();
+}
+
+function updatePreview() { /* live preview hook */ }
+
+// ===== INVOICE =====
+function downloadInvoice() {
+  const coName = document.getElementById('co-name').value;
+  const coAddress = document.getElementById('co-address').value;
+  const coCity = document.getElementById('co-city').value + ', ' + document.getElementById('co-country').value;
+  const coVat = document.getElementById('co-vat').value ? 'VAT: ' + document.getElementById('co-vat').value : '';
+  const pricing = calcPrice(participants.length);
+  const now = new Date();
+  const due = new Date(now); due.setDate(due.getDate()+14);
+  const fmt = d => d.toLocaleDateString('en-GB');
+
+  document.getElementById('inv-num').textContent = currentRef;
+  document.getElementById('inv-date').textContent = fmt(now);
+  document.getElementById('inv-due').textContent = fmt(due);
+  document.getElementById('inv-coname').textContent = coName;
+  document.getElementById('inv-coaddress').textContent = coAddress;
+  document.getElementById('inv-cocity').textContent = coCity;
+  document.getElementById('inv-covat').textContent = coVat;
+  document.getElementById('inv-ref').textContent = currentRef;
+  document.getElementById('inv-ref2').textContent = currentRef;
+  document.getElementById('inv-total').textContent = '€' + pricing.total.toLocaleString();
+
+  // Items
+  let rows = `<tr style="border-bottom:1px solid #eee;"><td style="padding:12px;">Technical Cleanliness Professional Training – Online Course (8h, 16 modules, EN)</td><td style="padding:12px;text-align:center;">${pricing.billableCount}</td><td style="padding:12px;text-align:right;">€${pricing.ppp}</td><td style="padding:12px;text-align:right;font-weight:600;">€${pricing.total.toLocaleString()}</td></tr>`;
+  if (pricing.freeCount > 0) rows += `<tr style="border-bottom:1px solid #eee;"><td style="padding:12px;">Group discount – complimentary seat</td><td style="padding:12px;text-align:center;">${pricing.freeCount}</td><td style="padding:12px;text-align:right;">€0</td><td style="padding:12px;text-align:right;">€0</td></tr>`;
+  document.getElementById('inv-items').innerHTML = rows;
+
+  // Participants table
+  document.getElementById('inv-participants').innerHTML = participants.map((p, i) =>
+    `<tr style="border-bottom:1px solid #eee;"><td style="padding:8px 12px;color:#888;">${i+1}</td><td style="padding:8px 12px;">${p.fname} ${p.lname}</td><td style="padding:8px 12px;color:#555;">${p.email}</td><td style="padding:8px 12px;color:#555;">${p.role||'–'}</td></tr>`
+  ).join('');
+
+  // Print invoice
+  const content = document.getElementById('invoice-content').innerHTML;
+  const win = window.open('', '_blank');
+  win.document.write(`<!DOCTYPE html><html><head><title>Invoice ${currentRef} – TecSa Pro</title><link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"><style>*{box-sizing:border-box;margin:0;padding:0}body{background:#f0f0f0;padding:40px}</style></head><body>${content}</body></html>`);
+  win.document.close();
+  win.focus();
+  setTimeout(() => { win.print(); }, 800);
+}
+
+// Init
+updatePriceSidebar();
+</script>
+</body>
+</html>

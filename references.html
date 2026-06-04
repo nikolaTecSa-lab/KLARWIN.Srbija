@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>References – TecSa Pro</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+.refs-intro { padding: 60px 0 40px; }
+.refs-intro p { color: var(--text-muted); font-size: 16px; max-width: 600px; line-height: 1.8; }
+.refs-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; padding-bottom: 80px; }
+.ref-card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 28px; transition: border-color var(--transition); }
+.ref-card:hover { border-color: rgba(0,212,255,0.2); }
+.ref-industry { font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 12px; }
+.ref-card h3 { font-family: var(--font-display); font-size: 16px; font-weight: 700; margin-bottom: 10px; }
+.ref-card p { color: var(--text-muted); font-size: 14px; line-height: 1.6; }
+.ref-tag { display: inline-block; background: var(--bg3); border: 1px solid var(--border); color: var(--text-dim); font-size: 11px; padding: 3px 10px; border-radius: 100px; margin-top: 14px; margin-right: 4px; }
+.placeholder-note { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 32px; text-align: center; color: var(--text-muted); margin-bottom: 40px; }
+.placeholder-note strong { display: block; font-family: var(--font-display); margin-bottom: 8px; color: var(--text); }
+@media(max-width:900px){ .refs-grid { grid-template-columns: 1fr 1fr; } }
+@media(max-width:600px){ .refs-grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<nav id="navbar">
+  <div class="nav-inner">
+    <a href="index.html" class="logo">TecSa<span>Pro</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="services.html">Services</a></li>
+      <li><a href="references.html" class="active">References</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <a href="register.html" class="btn-nav">Enroll Now</a>
+    <button class="burger" onclick="toggleMenu()">&#9776;</button>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="index.html">Home</a><a href="about.html">About</a><a href="services.html">Services</a><a href="references.html">References</a><a href="contact.html">Contact</a>
+    <a href="register.html" class="btn-nav">Enroll Now</a>
+  </div>
+</nav>
+
+<section class="page-hero">
+  <div class="container">
+    <div class="section-label">References</div>
+    <h1>Trusted by <em>industry</em></h1>
+    <p>We have worked with production companies, laboratories, and quality teams across the region.</p>
+  </div>
+</section>
+
+<section class="container">
+  <div class="refs-intro">
+    <div class="placeholder-note">
+      <strong>References coming soon</strong>
+      This section will be populated with client references, project descriptions, and testimonials. Contact us to discuss your requirements directly.
+    </div>
+  </div>
+
+  <div class="refs-grid">
+    <div class="ref-card">
+      <div class="ref-industry">Automotive</div>
+      <h3>[Client Name]</h3>
+      <p>Technical cleanliness lab setup and personnel training for a Tier 1 automotive supplier. Implementation of VDA 19.1 test methodology.</p>
+      <span class="ref-tag">VDA 19</span>
+      <span class="ref-tag">Training</span>
+    </div>
+    <div class="ref-card">
+      <div class="ref-industry">Hydraulics</div>
+      <h3>[Client Name]</h3>
+      <p>Cleanliness audit and corrective action support for a hydraulics manufacturer supplying to OEM customers.</p>
+      <span class="ref-tag">ISO 16232</span>
+      <span class="ref-tag">Audit</span>
+    </div>
+    <div class="ref-card">
+      <div class="ref-industry">Pharmaceutical</div>
+      <h3>[Client Name]</h3>
+      <p>Cleanroom environment assessment and ISO 14644 compliance review for a pharmaceutical production facility.</p>
+      <span class="ref-tag">ISO 14644</span>
+      <span class="ref-tag">Consulting</span>
+    </div>
+    <div class="ref-card">
+      <div class="ref-industry">Precision Manufacturing</div>
+      <h3>[Client Name]</h3>
+      <p>Full online team training program, 12 participants from quality and production departments.</p>
+      <span class="ref-tag">Online Training</span>
+      <span class="ref-tag">ISO 16232</span>
+    </div>
+    <div class="ref-card">
+      <div class="ref-industry">Fluid Power</div>
+      <h3>[Client Name]</h3>
+      <p>Particle contamination analysis and process review for a fluid power component manufacturer.</p>
+      <span class="ref-tag">ISO 4405</span>
+      <span class="ref-tag">Consulting</span>
+    </div>
+    <div class="ref-card">
+      <div class="ref-industry">Your Company</div>
+      <h3>Let's work together</h3>
+      <p>Ready to implement technical cleanliness standards or train your team? We'd be glad to add your project here.</p>
+      <a href="contact.html" class="ref-tag" style="color:var(--accent);border-color:rgba(0,212,255,0.3);">Get in touch →</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand"><div class="logo">TecSa<span>Pro</span></div><p>Technical cleanliness training and consulting.</p></div>
+      <div class="footer-links"><strong>Navigation</strong><a href="index.html">Home</a><a href="about.html">About</a><a href="services.html">Services</a><a href="references.html">References</a><a href="contact.html">Contact</a></div>
+      <div class="footer-links"><strong>Services</strong><a href="services.html#consulting">Consulting</a><a href="services.html#course">Online Training</a><a href="services.html#audit">Audit</a></div>
+      <div class="footer-contact"><strong>Contact</strong><p>technicalcleanliness.online</p><p>[EMAIL PLACEHOLDER]</p><p>Obrenovac, Serbia</p></div>
+    </div>
+    <div class="footer-bottom"><span>© 2026 TecSa Pro. All rights reserved.</span><span>ISO 16232 · VDA 19 · ISO 14644</span></div>
+  </div>
+</footer>
+<script src="main.js"></script>
+</body>
+</html>
