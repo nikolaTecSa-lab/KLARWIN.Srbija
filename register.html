@@ -206,10 +206,10 @@
         <div style="font-family:'Playfair Display',sans-serif;font-size:26px;font-weight:800;">TecSa<span style="color:#00a8cc;">Pro</span></div>
         <div style="font-size:12px;color:#888;margin-top:3px;">Technical Cleanliness Training & Consulting</div>
         <div style="font-size:12px;color:#888;">Obrenovac, Serbia · technicalcleanliness.online</div>
-        <div style="font-size:12px;color:#888;">[EMAIL PLACEHOLDER] · PIB: [PIB PLACEHOLDER]</div>
+        <div style="font-size:12px;color:#888;">info@tehnickacistoca.in.rs · PIB: </div>
       </div>
       <div style="text-align:right;">
-        <div style="font-size:20px;font-weight:800;color:#00a8cc;">PROFAKTURA/FAKTURA</div>
+        <div style="font-size:20px;font-weight:800;color:#00a8cc;">PROforma/Invoice</div>
         <div style="font-size:13px;color:#888;margin-top:4px;">Br. / No. <strong id="inv-num" style="color:#1a1a2e;"></strong></div>
         <div style="font-size:12px;color:#888;">Datum / Date: <span id="inv-date"></span></div>
         <div style="font-size:12px;color:#888;">Valuta / Due: <span id="inv-due"></span></div>
@@ -427,7 +427,7 @@ function downloadInvoice() {
 
   const content = document.getElementById('inv-body').outerHTML;
   const win = window.open('', '_blank');
-  win.document.write(`<!DOCTYPE html><html><head><title>Profaktura/Faktura ${currentRef} – TecSa Pro</title><link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet"><style>*{box-sizing:border-box;margin:0;padding:0}body{background:#f0f0f0;padding:40px}</style></head><body>${content}</body></html>`);
+  win.document.write(`<!DOCTYPE html><html><head><title>Pro-forma/Invoice ${currentRef} – TecSa Pro</title><link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet"><style>*{box-sizing:border-box;margin:0;padding:0}body{background:#f0f0f0;padding:40px}</style></head><body>${content}</body></html>`);
   win.document.close();
   setTimeout(() => win.print(), 800);
 }
