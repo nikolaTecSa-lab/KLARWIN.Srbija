@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Contact – TecSa Pro</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 <style>
 .contact-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: 80px; padding: 80px 0; }
@@ -29,12 +29,12 @@
       <li><a href="references.html">References</a></li>
       <li><a href="contact.html" class="active">Contact</a></li>
     </ul>
-    <a href="register.html" class="btn-nav">Enroll Now</a>
+    <a href="notify.html" class="btn-nav">Notify Me</a>
     <button class="burger" onclick="toggleMenu()">&#9776;</button>
   </div>
   <div class="mobile-menu" id="mobileMenu">
     <a href="index.html">Home</a><a href="about.html">About</a><a href="services.html">Services</a><a href="references.html">References</a><a href="contact.html">Contact</a>
-    <a href="register.html" class="btn-nav">Enroll Now</a>
+    <a href="notify.html" class="btn-nav">Notify Me</a>
   </div>
 </nav>
 
@@ -92,7 +92,7 @@
         </select>
       </div>
       <div class="form-group"><label>Message *</label><textarea id="cf-message" placeholder="Describe your needs or questions..."></textarea></div>
-      <button class="btn-primary" onclick="submitContact()">Send Message</button>
+      <button class="btn-primary" onclick="submitContactForm(this)">Send Message</button>
       <div class="success-msg" id="contact-success">✓ Thank you! We'll be in touch within 24 hours.</div>
     </div>
   </div>
@@ -116,6 +116,84 @@ function submitContact() {
   for (let f of fields) { if (!document.getElementById(f).value.trim()) { alert('Please fill in all required fields.'); return; } }
   document.getElementById('contact-success').style.display = 'block';
   document.querySelector('.form-wrap button').disabled = true;
+}
+</script>
+
+<script>
+function submitContactForm(btn) {
+  var fname = document.getElementById('cf-fname').value.trim();
+  var lname = document.getElementById('cf-lname').value.trim();
+  var email = document.getElementById('cf-email').value.trim();
+  var company = document.getElementById('cf-company').value.trim();
+  var subject_el = document.getElementById('cf-subject');
+  var subject = subject_el ? subject_el.value : 'General Inquiry';
+  var msg = document.getElementById('cf-message').value.trim();
+  if(!fname||!lname||!email||!company||!msg){alert('Please fill in all required fields.');return;}
+  var subj = encodeURIComponent('TecSa Pro Inquiry – ' + fname + ' ' + lname + ' (' + company + ')');
+  var body = encodeURIComponent('Name: '+fname+' '+lname+'
+Email: '+email+'
+Company: '+company+'
+Subject: '+subject+'
+
+Message:
+'+msg+'
+
+---
+Sent from technicalcleanliness.online/contact.html');
+  window.location.href = 'mailto:info@tehnickacistoca.in.rs?subject='+subj+'&body='+body;
+  setTimeout(function(){
+    document.getElementById('contact-success').style.display='block';
+    btn.disabled=true;
+  }, 800);
+}
+</script>
+
+<script>
+async function submitContactForm(btn) {
+  const fname = document.getElementById('cf-fname').value.trim();
+  const lname = document.getElementById('cf-lname').value.trim();
+  const email = document.getElementById('cf-email').value.trim();
+  const company = document.getElementById('cf-company').value.trim();
+  const subject_el = document.getElementById('cf-subject');
+  const subject = subject_el ? subject_el.value : 'General Inquiry';
+  const msg = document.getElementById('cf-message').value.trim();
+
+  if(!fname||!lname||!email||!company||!msg){alert('Please fill in all required fields.');return;}
+
+  btn.disabled = true;
+  btn.textContent = 'Sending...';
+
+  const data = {
+    access_key: 'fb9b755e-4c61-43f6-af93-294f7c1d9515',
+    subject: 'TecSa Pro Contact – ' + fname + ' ' + lname + ' (' + company + ')',
+    from_name: 'TecSa Pro Website',
+    name: fname + ' ' + lname,
+    email: email,
+    company: company,
+    topic: subject,
+    message: msg,
+    source: 'technicalcleanliness.online/contact.html'
+  };
+
+  try {
+    const res = await fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
+      body: JSON.stringify(data)
+    });
+    const json = await res.json();
+    if(json.success) {
+      document.getElementById('contact-success').style.display = 'block';
+    } else {
+      alert('Something went wrong. Please email info@tehnickacistoca.in.rs directly.');
+      btn.disabled = false;
+      btn.textContent = 'Send Message';
+    }
+  } catch(e) {
+    alert('Connection error. Please email info@tehnickacistoca.in.rs directly.');
+    btn.disabled = false;
+    btn.textContent = 'Send Message';
+  }
 }
 </script>
 </body>

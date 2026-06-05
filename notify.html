@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Join the Waitlist – TecSa Pro</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+.notify-wrap {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: 100px 28px 80px;
+  position: relative;
+  z-index: 1;
+}
+.notify-inner {
+  max-width: 960px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: start;
+  width: 100%;
+}
+.notify-left h1 {
+  font-family: var(--font-display);
+  font-size: clamp(32px, 4vw, 50px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  margin-bottom: 20px;
+}
+.notify-left p {
+  color: var(--text-muted);
+  font-size: 16px;
+  line-height: 1.8;
+  margin-bottom: 32px;
+}
+.launch-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(26,107,60,0.08);
+  border: 1px solid rgba(26,107,60,0.2);
+  color: var(--accent);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 10px 18px;
+  border-radius: 100px;
+  margin-bottom: 28px;
+}
+.launch-badge::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  background: var(--accent);
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.8); }
+}
+.perks {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 8px;
+}
+.perk {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+  color: var(--text-muted);
+}
+.perk-icon {
+  width: 32px;
+  height: 32px;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  flex-shrink: 0;
+}
+
+.notify-form-wrap {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 40px;
+  box-shadow: var(--shadow-lg);
+}
+.notify-form-wrap h2 {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.notify-form-wrap .sub {
+  color: var(--text-muted);
+  font-size: 14px;
+  margin-bottom: 28px;
+  line-height: 1.6;
+}
+
+.lang-select {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.lang-opt {
+  border: 1.5px solid var(--border-med);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  cursor: pointer;
+  transition: all var(--transition);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-muted);
+  background: var(--bg);
+}
+.lang-opt:hover { border-color: var(--accent); color: var(--text); }
+.lang-opt.selected {
+  border-color: var(--accent);
+  background: rgba(26,107,60,0.06);
+  color: var(--accent);
+  font-weight: 600;
+}
+.lang-opt .flag { font-size: 20px; }
+
+.interest-select {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+.int-opt {
+  border: 1.5px solid var(--border-med);
+  border-radius: var(--radius);
+  padding: 12px 16px;
+  cursor: pointer;
+  transition: all var(--transition);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  color: var(--text-muted);
+  background: var(--bg);
+}
+.int-opt:hover { border-color: var(--accent); color: var(--text); }
+.int-opt.selected {
+  border-color: var(--accent);
+  background: rgba(26,107,60,0.06);
+  color: var(--accent);
+  font-weight: 600;
+}
+.int-check {
+  width: 18px; height: 18px;
+  border-radius: 4px;
+  border: 1.5px solid currentColor;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; flex-shrink: 0;
+}
+.int-opt.selected .int-check { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+.success-screen {
+  display: none;
+  text-align: center;
+  padding: 20px 0;
+}
+.success-screen.show { display: block; }
+.success-icon { font-size: 56px; margin-bottom: 16px; }
+.success-screen h3 {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.success-screen p { color: var(--text-muted); font-size: 14px; line-height: 1.7; }
+
+@media(max-width: 768px) {
+  .notify-inner { grid-template-columns: 1fr; gap: 40px; }
+  .notify-left { order: 2; }
+  .notify-form-wrap { order: 1; }
+}
+</style>
+</head>
+<body>
+
+<nav id="navbar">
+  <div class="nav-inner">
+    <a href="index.html" class="logo">TecSa<span>Pro</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="services.html">Services</a></li>
+      <li><a href="references.html">References</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <button class="burger" onclick="toggleMenu()">&#9776;</button>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="index.html">Home</a><a href="about.html">About</a>
+    <a href="services.html">Services</a><a href="references.html">References</a>
+    <a href="contact.html">Contact</a>
+  </div>
+</nav>
+
+<div class="notify-wrap">
+  <div class="notify-inner">
+
+    <!-- LEFT -->
+    <div class="notify-left">
+      <div class="launch-badge">Launching soon</div>
+      <h1>Be the first to access <em>Technical Cleanliness</em> training</h1>
+      <p>The TecSa Pro online certification course is currently in preparation. Register your interest now and we'll notify you as soon as enrollment opens – with an early access offer.</p>
+
+      <div class="perks">
+        <div class="perk"><div class="perk-icon">🎓</div>8-hour online course, 15 lectures + final test</div>
+        <div class="perk"><div class="perk-icon">📄</div>Profaktura/Faktura issued immediately on enrollment</div>
+        <div class="perk"><div class="perk-icon">🏆</div>Certificate upon passing – ISO 16232, VDA 19, ISO 14644</div>
+        <div class="perk"><div class="perk-icon">🌍</div>Available in English and Serbian</div>
+        <div class="perk"><div class="perk-icon">👥</div>Group discounts for teams of 2+</div>
+        <div class="perk"><div class="perk-icon">💳</div>B2B bank transfer – 30 day payment terms</div>
+      </div>
+    </div>
+
+    <!-- RIGHT: FORM -->
+    <div class="notify-form-wrap">
+
+      <!-- FORM -->
+      <div id="notify-form">
+        <h2>Join the waitlist</h2>
+        <p class="sub">We'll send you one email when enrollment opens. No spam.</p>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>First Name *</label>
+            <input type="text" id="nf-fname" placeholder="Anna">
+          </div>
+          <div class="form-group">
+            <label>Last Name *</label>
+            <input type="text" id="nf-lname" placeholder="Smith">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Work Email *</label>
+          <input type="email" id="nf-email" placeholder="anna@company.com">
+        </div>
+
+        <div class="form-group">
+          <label>Company *</label>
+          <input type="text" id="nf-company" placeholder="Acme Manufacturing GmbH">
+        </div>
+
+        <div class="form-group">
+          <label>Country</label>
+          <input type="text" id="nf-country" placeholder="Germany">
+        </div>
+
+        <div class="form-group">
+          <label>Preferred course language *</label>
+          <div class="lang-select">
+            <div class="lang-opt" id="lang-en" onclick="selLang('en')">
+              <span class="flag">🇬🇧</span> English
+            </div>
+            <div class="lang-opt" id="lang-sr" onclick="selLang('sr')">
+              <span class="flag">🇷🇸</span> Serbian
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>I'm interested in</label>
+          <div class="interest-select">
+            <div class="int-opt" id="int-course" onclick="togInt('course')">
+              <div class="int-check" id="ic-course"></div>
+              Online Training Course
+            </div>
+            <div class="int-opt" id="int-consulting" onclick="togInt('consulting')">
+              <div class="int-check" id="ic-consulting"></div>
+              Consulting
+            </div>
+            <div class="int-opt" id="int-audit" onclick="togInt('audit')">
+              <div class="int-check" id="ic-audit"></div>
+              Cleanliness Audit
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Message (optional)</label>
+          <textarea id="nf-msg" placeholder="Any specific questions, number of participants, timeline..."></textarea>
+        </div>
+
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:22px">
+          <input type="checkbox" id="nf-terms" style="width:15px;height:15px;accent-color:var(--accent)">
+          <label for="nf-terms" style="font-size:13px;color:var(--text-muted);cursor:pointer">
+            I agree to be contacted by TecSa Pro regarding this inquiry.
+          </label>
+        </div>
+
+        <button class="btn-primary" style="width:100%" onclick="submitNotify()">
+          Notify Me When Available →
+        </button>
+
+        <p style="font-size:11px;color:var(--text-dim);text-align:center;margin-top:12px">
+          Your data is used only to notify you about TecSa Pro course availability.
+        </p>
+      </div>
+
+      <!-- SUCCESS -->
+      <div class="success-screen" id="notify-success">
+        <div class="success-icon">✅</div>
+        <h3>You're on the list!</h3>
+        <p>Thank you, <strong id="succ-name"></strong>. We'll notify you at <strong id="succ-email"></strong> as soon as enrollment opens.<br><br>
+        In the meantime, feel free to reach out directly at<br>
+        <a href="mailto:info@tehnickacistoca.in.rs" style="color:var(--accent);font-weight:600">info@tehnickacistoca.in.rs</a></p>
+        <div style="margin-top:28px">
+          <a href="index.html" class="btn-ghost" style="display:inline-block">← Back to Home</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logo">TecSa<span>Pro</span></div>
+        <p>Technical cleanliness training and consulting.</p>
+      </div>
+      <div class="footer-links">
+        <strong>Navigation</strong>
+        <a href="index.html">Home</a><a href="about.html">About</a>
+        <a href="services.html">Services</a><a href="contact.html">Contact</a>
+      </div>
+      <div class="footer-links">
+        <strong>Services</strong>
+        <a href="services.html#consulting">Consulting</a>
+        <a href="services.html#course">Online Training</a>
+        <a href="services.html#audit">Audit</a>
+      </div>
+      <div class="footer-contact">
+        <strong>Contact</strong>
+        <p>info@tehnickacistoca.in.rs</p>
+        <p>[PHONE PLACEHOLDER]</p>
+        <p>Obrenovac, Serbia</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 TecSa Pro. All rights reserved.</span>
+      <span>ISO 16232 · VDA 19 · ISO 14644</span>
+    </div>
+  </div>
+</footer>
+
+<script src="main.js"></script>
+<script>
+let selLangVal = '';
+let selInterests = new Set();
+
+function selLang(l) {
+  selLangVal = l;
+  document.getElementById('lang-en').classList.toggle('selected', l==='en');
+  document.getElementById('lang-sr').classList.toggle('selected', l==='sr');
+}
+
+function togInt(k) {
+  if(selInterests.has(k)) selInterests.delete(k);
+  else selInterests.add(k);
+  ['course','consulting','audit'].forEach(i => {
+    const opt = document.getElementById('int-'+i);
+    const chk = document.getElementById('ic-'+i);
+    if(selInterests.has(i)) {
+      opt.classList.add('selected');
+      chk.textContent = '✓';
+    } else {
+      opt.classList.remove('selected');
+      chk.textContent = '';
+    }
+  });
+}
+
+function submitNotify() {
+  const fname = document.getElementById('nf-fname').value.trim();
+  const lname = document.getElementById('nf-lname').value.trim();
+  const email = document.getElementById('nf-email').value.trim();
+  const company = document.getElementById('nf-company').value.trim();
+
+  if(!fname || !lname) { alert('Please enter your name.'); return; }
+  if(!email || !email.includes('@')) { alert('Please enter a valid email.'); return; }
+  if(!company) { alert('Please enter your company name.'); return; }
+  if(!selLangVal) { alert('Please select your preferred course language.'); return; }
+  if(!document.getElementById('nf-terms').checked) { alert('Please agree to be contacted.'); return; }
+
+  const country = document.getElementById('nf-country').value.trim();
+  const msg = document.getElementById('nf-msg').value.trim();
+  const lang = selLangVal === 'en' ? 'English' : 'Serbian';
+  const interests = selInterests.size > 0
+    ? [...selInterests].map(i => i.charAt(0).toUpperCase()+i.slice(1)).join(', ')
+    : 'Not specified';
+
+  const subject = encodeURIComponent(`TecSa Pro Waitlist – ${fname} ${lname} (${company})`);
+  const body = encodeURIComponent(
+`New waitlist registration – TecSa Pro
+
+Name: ${fname} ${lname}
+Email: ${email}
+Company: ${company}
+Country: ${country || 'Not specified'}
+Preferred language: ${lang}
+Interested in: ${interests}
+
+Message:
+${msg || '(none)'}
+
+---
+Sent from technicalcleanliness.online/notify.html`
+  );
+
+  window.location.href = `mailto:info@tehnickacistoca.in.rs?subject=${subject}&body=${body}`;
+
+  setTimeout(() => {
+    document.getElementById('notify-form').style.display = 'none';
+    document.getElementById('notify-success').classList.add('show');
+    document.getElementById('succ-name').textContent = fname;
+    document.getElementById('succ-email').textContent = email;
+  }, 800);
+}
+</script>
+</body>
+</html>

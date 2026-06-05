@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Online Course – Coming Soon – TecSa Pro</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+.coming-hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 100px 28px 80px;
+  position: relative;
+  z-index: 1;
+}
+.coming-inner {
+  max-width: 680px;
+  text-align: center;
+}
+.coming-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(26,107,60,0.08);
+  border: 1px solid rgba(26,107,60,0.2);
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 9px 18px;
+  border-radius: 100px;
+  margin-bottom: 32px;
+}
+.coming-badge::before {
+  content: '';
+  width: 8px; height: 8px;
+  background: var(--accent);
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+@keyframes pulse {
+  0%,100%{opacity:1;transform:scale(1)}
+  50%{opacity:.5;transform:scale(.8)}
+}
+.coming-inner h1 {
+  font-family: var(--font-display);
+  font-size: clamp(36px, 5vw, 60px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  margin-bottom: 24px;
+}
+.coming-inner p {
+  color: var(--text-muted);
+  font-size: 17px;
+  line-height: 1.8;
+  margin-bottom: 40px;
+  max-width: 520px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.module-preview {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin: 40px 0;
+  text-align: left;
+}
+.mp-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px;
+  transition: border-color var(--transition);
+}
+.mp-card:hover { border-color: var(--accent); }
+.mp-num { font-size: 10px; font-weight: 600; color: var(--accent); letter-spacing: .1em; margin-bottom: 5px; }
+.mp-card h4 { font-family: var(--font-display); font-size: 12px; font-weight: 600; line-height: 1.3; color: var(--text); }
+.stats-row {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  padding: 28px 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  margin: 32px 0;
+}
+.stat-item { text-align: center; }
+.stat-val { font-family: var(--font-display); font-size: 28px; font-weight: 700; color: var(--accent); display: block; }
+.stat-lbl { font-size: 12px; color: var(--text-dim); text-transform: uppercase; letter-spacing: .1em; margin-top: 2px; display: block; }
+@media(max-width:600px){ .module-preview{grid-template-columns:1fr 1fr} .stats-row{gap:20px} }
+</style>
+</head>
+<body>
+<nav id="navbar">
+  <div class="nav-inner">
+    <a href="index.html" class="logo">TecSa<span>Pro</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="services.html">Services</a></li>
+      <li><a href="references.html">References</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <a href="notify.html" class="btn-nav">Notify Me</a>
+    <button class="burger" onclick="toggleMenu()">&#9776;</button>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="index.html">Home</a><a href="about.html">About</a>
+    <a href="services.html">Services</a><a href="references.html">References</a>
+    <a href="contact.html">Contact</a>
+    <a href="notify.html" class="btn-nav">Notify Me</a>
+  </div>
+</nav>
+
+<section class="coming-hero">
+  <div class="coming-inner">
+    <div class="coming-badge">Course in preparation</div>
+    <h1>Online Training<br><em>Coming Soon</em></h1>
+    <p>The Technical Cleanliness Professional Training course is currently being prepared. 15 lectures covering ISO 16232, VDA 19, ISO 4405, and ISO 14644 – structured for 30-minute sessions during working hours.</p>
+
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+      <a href="notify.html" class="btn-primary">🔔 Notify Me When Available</a>
+      <a href="services.html#course" class="btn-ghost">View Course Structure</a>
+    </div>
+
+    <div class="stats-row">
+      <div class="stat-item"><span class="stat-val">15</span><span class="stat-lbl">Lectures</span></div>
+      <div class="stat-item"><span class="stat-val">8h</span><span class="stat-lbl">Total</span></div>
+      <div class="stat-item"><span class="stat-val">€450</span><span class="stat-lbl">Per person</span></div>
+      <div class="stat-item"><span class="stat-val">EN / SR</span><span class="stat-lbl">Language</span></div>
+    </div>
+
+    <div class="module-preview">
+      <div class="mp-card"><div class="mp-num">01</div><h4>Introduction to Technical Cleanliness</h4></div>
+      <div class="mp-card"><div class="mp-num">02</div><h4>Standards Overview</h4></div>
+      <div class="mp-card"><div class="mp-num">03</div><h4>Particle Types & Classification</h4></div>
+      <div class="mp-card"><div class="mp-num">04</div><h4>Cleanliness Requirements</h4></div>
+      <div class="mp-card"><div class="mp-num">05</div><h4>Sampling Methods</h4></div>
+      <div class="mp-card"><div class="mp-num">06</div><h4>Laboratory Analysis</h4></div>
+      <div class="mp-card"><div class="mp-num">07</div><h4>Testing Equipment</h4></div>
+      <div class="mp-card"><div class="mp-num">08</div><h4>HEPA Filtration</h4></div>
+      <div class="mp-card"><div class="mp-num">09</div><h4>Industrial Washing Systems</h4></div>
+      <div class="mp-card"><div class="mp-num">10</div><h4>Cleanroom Environments</h4></div>
+      <div class="mp-card"><div class="mp-num">11</div><h4>Process Cleanliness Control</h4></div>
+      <div class="mp-card"><div class="mp-num">12</div><h4>Packaging & Storage</h4></div>
+      <div class="mp-card"><div class="mp-num">13</div><h4>Documentation & Reporting</h4></div>
+      <div class="mp-card"><div class="mp-num">14</div><h4>Supplier Requirements</h4></div>
+      <div class="mp-card"><div class="mp-num">15</div><h4>Case Studies & Common Failures</h4></div>
+      <div class="mp-card" style="background:rgba(26,107,60,0.05);border-color:rgba(26,107,60,0.2)"><div class="mp-num">16</div><h4>Final Assessment + Certificate</h4></div>
+    </div>
+
+    <a href="notify.html" class="btn-primary btn-large">Register Your Interest →</a>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand"><div class="logo">TecSa<span>Pro</span></div><p>Technical cleanliness training and consulting.</p></div>
+      <div class="footer-links"><strong>Navigation</strong><a href="index.html">Home</a><a href="about.html">About</a><a href="services.html">Services</a><a href="references.html">References</a><a href="contact.html">Contact</a></div>
+      <div class="footer-links"><strong>Services</strong><a href="services.html#consulting">Consulting</a><a href="services.html#course">Course Structure</a><a href="services.html#audit">Audit</a></div>
+      <div class="footer-contact"><strong>Contact</strong><p>info@tehnickacistoca.in.rs</p><p>[PHONE PLACEHOLDER]</p><p>Obrenovac, Serbia</p></div>
+    </div>
+    <div class="footer-bottom"><span>© 2026 TecSa Pro. All rights reserved.</span><span>ISO 16232 · VDA 19 · ISO 14644</span></div>
+  </div>
+</footer>
+<script src="main.js"></script>
+</body>
+</html>
