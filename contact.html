@@ -54,7 +54,7 @@
 
       <div class="contact-item">
         <div class="contact-icon">📧</div>
-        <div><strong>Email</strong><span>info@tehnickacistoca.in.rs</span></div>
+        <div><strong>Email</strong><span>[EMAIL PLACEHOLDER]</span></div>
       </div>
       <div class="contact-item">
         <div class="contact-icon">📞</div>
@@ -62,7 +62,7 @@
       </div>
       <div class="contact-item">
         <div class="contact-icon">📍</div>
-        <div><strong>Location</strong><span>Belgrade, Serbia</span></div>
+        <div><strong>Location</strong><span>Obrenovac, Serbia</span></div>
       </div>
       <div class="contact-item">
         <div class="contact-icon">⏱</div>
@@ -92,7 +92,7 @@
         </select>
       </div>
       <div class="form-group"><label>Message *</label><textarea id="cf-message" placeholder="Describe your needs or questions..."></textarea></div>
-      <button class="btn-primary" onclick="submitContactForm(this)">Send Message</button>
+      <button class="btn-primary" onclick="sendContact(this)">Send Message</button>
       <div class="success-msg" id="contact-success">✓ Thank you! We'll be in touch within 24 hours.</div>
     </div>
   </div>
@@ -110,82 +110,47 @@
   </div>
 </footer>
 <script src="main.js"></script>
+<script src="main.js"></script>
 <script>
-function submitContact() {
-  const fields = ['cf-fname','cf-lname','cf-email','cf-company','cf-message'];
-  for (let f of fields) { if (!document.getElementById(f).value.trim()) { alert('Please fill in all required fields.'); return; } }
-  document.getElementById('contact-success').style.display = 'block';
-  document.querySelector('.form-wrap button').disabled = true;
-}
-</script>
-
-<script>
-function submitContactForm(btn) {
-  var fname = document.getElementById('cf-fname').value.trim();
-  var lname = document.getElementById('cf-lname').value.trim();
-  var email = document.getElementById('cf-email').value.trim();
-  var company = document.getElementById('cf-company').value.trim();
-  var subject_el = document.getElementById('cf-subject');
-  var subject = subject_el ? subject_el.value : 'General Inquiry';
-  var msg = document.getElementById('cf-message').value.trim();
-  if(!fname||!lname||!email||!company||!msg){alert('Please fill in all required fields.');return;}
-  var subj = encodeURIComponent('TecSa Pro Inquiry – ' + fname + ' ' + lname + ' (' + company + ')');
-  var body = encodeURIComponent('Name: '+fname+' '+lname+'
-Email: '+email+'
-Company: '+company+'
-Subject: '+subject+'
-
-Message:
-'+msg+'
-
----
-Sent from technicalcleanliness.online/contact.html');
-  window.location.href = 'mailto:info@tehnickacistoca.in.rs?subject='+subj+'&body='+body;
-  setTimeout(function(){
-    document.getElementById('contact-success').style.display='block';
-    btn.disabled=true;
-  }, 800);
-}
-</script>
-
-<script>
-async function submitContactForm(btn) {
+async function sendContact(btn) {
   const fname = document.getElementById('cf-fname').value.trim();
   const lname = document.getElementById('cf-lname').value.trim();
   const email = document.getElementById('cf-email').value.trim();
   const company = document.getElementById('cf-company').value.trim();
-  const subject_el = document.getElementById('cf-subject');
-  const subject = subject_el ? subject_el.value : 'General Inquiry';
+  const subjectEl = document.getElementById('cf-subject');
+  const topic = subjectEl ? subjectEl.value : 'General Inquiry';
   const msg = document.getElementById('cf-message').value.trim();
 
-  if(!fname||!lname||!email||!company||!msg){alert('Please fill in all required fields.');return;}
+  if(!fname || !lname || !email || !company || !msg) {
+    alert('Please fill in all required fields.');
+    return;
+  }
 
   btn.disabled = true;
   btn.textContent = 'Sending...';
 
-  const data = {
-    access_key: 'fb9b755e-4c61-43f6-af93-294f7c1d9515',
-    subject: 'TecSa Pro Contact – ' + fname + ' ' + lname + ' (' + company + ')',
-    from_name: 'TecSa Pro Website',
-    name: fname + ' ' + lname,
-    email: email,
-    company: company,
-    topic: subject,
-    message: msg,
-    source: 'technicalcleanliness.online/contact.html'
-  };
-
   try {
     const res = await fetch('https://api.web3forms.com/submit', {
       method: 'POST',
-      headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
-      body: JSON.stringify(data)
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({
+        access_key: 'fb9b755e-4c61-43f6-af93-294f7c1d9515',
+        subject: 'TecSa Pro Contact – ' + fname + ' ' + lname + ' (' + company + ')',
+        from_name: 'TecSa Pro Website',
+        name: fname + ' ' + lname,
+        email: email,
+        company: company,
+        topic: topic,
+        message: msg,
+        source: 'technicalcleanliness.online/contact.html'
+      })
     });
     const json = await res.json();
     if(json.success) {
       document.getElementById('contact-success').style.display = 'block';
+      btn.textContent = 'Sent ✓';
     } else {
-      alert('Something went wrong. Please email info@tehnickacistoca.in.rs directly.');
+      alert('Something went wrong. Please try again or email info@tehnickacistoca.in.rs');
       btn.disabled = false;
       btn.textContent = 'Send Message';
     }
