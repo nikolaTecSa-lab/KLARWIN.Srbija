@@ -396,50 +396,118 @@ function togInt(k) {
 }
 
 function submitNotify() {
+ async function submitNotify() {
   const fname = document.getElementById('nf-fname').value.trim();
   const lname = document.getElementById('nf-lname').value.trim();
   const email = document.getElementById('nf-email').value.trim();
   const company = document.getElementById('nf-company').value.trim();
 
-  if(!fname || !lname) { alert('Please enter your name.'); return; }
-  if(!email || !email.includes('@')) { alert('Please enter a valid email.'); return; }
-  if(!company) { alert('Please enter your company name.'); return; }
-  if(!selLangVal) { alert('Please select your preferred course language.'); return; }
-  if(!document.getElementById('nf-terms').checked) { alert('Please agree to be contacted.'); return; }
+  if(!fname || !lname) {
+    alert('Please enter your name.');
+    return;
+  }
+
+  if(!email || !email.includes('@')) {
+    alert('Please enter a valid email.');
+    return;
+  }
+
+  if(!company) {
+    alert('Please enter your company name.');
+    return;
+  }
+
+  if(!selLangVal) {
+    alert('Please select your preferred course language.');
+    return;
+  }
+
+  if(!document.getElementById('nf-terms').checked) {
+    alert('Please agree to be contacted.');
+    return;
+  }
+
+  const btn = document.querySelector('.btn-primary');
+
+  btn.disabled = true;
+  btn.textContent = 'Submitting...';
 
   const country = document.getElementById('nf-country').value.trim();
   const msg = document.getElementById('nf-msg').value.trim();
-  const lang = selLangVal === 'en' ? 'English' : 'Serbian';
+
+  const lang = selLangVal === 'en'
+    ? 'English'
+    : 'Serbian';
+
   const interests = selInterests.size > 0
-    ? [...selInterests].map(i => i.charAt(0).toUpperCase()+i.slice(1)).join(', ')
+    ? [...selInterests]
+        .map(i => i.charAt(0).toUpperCase() + i.slice(1))
+        .join(', ')
     : 'Not specified';
 
-  const subject = encodeURIComponent(`TecSa Pro Waitlist – ${fname} ${lname} (${company})`);
-  const body = encodeURIComponent(
-`New waitlist registration – TecSa Pro
+  try {
 
-Name: ${fname} ${lname}
-Email: ${email}
-Company: ${company}
-Country: ${country || 'Not specified'}
-Preferred language: ${lang}
-Interested in: ${interests}
+    const response = await fetch(
+      'https://api.web3forms.com/submit',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          access_key: 'fb9b755e-4c61-43f6-af93-294f7c1d9515',
 
-Message:
-${msg || '(none)'}
+          subject:
+            `TecSa Pro Waitlist – ${fname} ${lname} (${company})`,
 
----
-Sent from technicalcleanliness.online/notify.html`
-  );
+          from_name: 'TecSa Pro Waitlist',
 
-  window.location.href = `mailto:info@tehnickacistoca.in.rs?subject=${subject}&body=${body}`;
+          name: `${fname} ${lname}`,
+          email: email,
+          company: company,
+          country: country || 'Not specified',
+          preferred_language: lang,
+          interests: interests,
+          message: msg || '(none)',
 
-  setTimeout(() => {
-    document.getElementById('notify-form').style.display = 'none';
-    document.getElementById('notify-success').classList.add('show');
-    document.getElementById('succ-name').textContent = fname;
-    document.getElementById('succ-email').textContent = email;
-  }, 800);
+          source: 'technicalcleanliness.online/notify.html'
+        })
+      }
+    );
+
+    const result = await response.json();
+
+    if(result.success) {
+
+      document.getElementById('notify-form').style.display = 'none';
+
+      document
+        .getElementById('notify-success')
+        .classList.add('show');
+
+      document.getElementById('succ-name').textContent = fname;
+      document.getElementById('succ-email').textContent = email;
+
+    } else {
+
+      alert(
+        'Something went wrong. Please try again later.'
+      );
+
+      btn.disabled = false;
+      btn.textContent = 'Notify Me When Available →';
+    }
+
+  } catch(err) {
+
+    alert(
+      'Connection error. Please try again later.'
+    );
+
+    btn.disabled = false;
+    btn.textContent = 'Notify Me When Available →';
+  }
 }
 </script>
 </body>
